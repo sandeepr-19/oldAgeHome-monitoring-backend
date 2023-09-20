@@ -20,6 +20,6 @@ import { EldersModule } from './elders/elders.module';
     EldersModule,
   ],
   controllers: [AppController],
-  providers: [AppService, EldersService],
+  providers: [AppService],
 })
 export class AppModule {}

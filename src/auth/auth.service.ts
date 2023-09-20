@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/schema/users.schema';
 import { UsersService } from '../users/users.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async validateUserCredentials(
@@ -16,9 +17,16 @@ export class AuthService {
   ): Promise<any> {
     const user = await this.usersService.getUserByFilter({
       userName,
-      password,
     });
-    return user ?? null;
+
+    if (!user) {
+      throw new NotAcceptableException('could not find the user');
+    }
+    const passwordValid = await bcrypt.compare(password, user.password);
+    if (user && passwordValid) {
+      return user;
+    }
+    return null;
   }
 
   async loginWithCredentials(user: any) {
@@ -31,5 +39,11 @@ export class AuthService {
       access_token: a,
       expiredAt: Date.now() + 60000,
     };
+  }
+
+  validateToken(token: string) {
+    return this.jwtService.verify(token, {
+      secret: process.env.JWT_SECRET_KEY,
+    });
   }
 }

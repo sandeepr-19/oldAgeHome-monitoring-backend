@@ -22,7 +22,7 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ example: 'where_is_my_dog', description: 'Password' })
-  readonly password: string;
+  password: string;
 
   @IsString()
   @IsNotEmpty()

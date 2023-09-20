@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateElderDto } from './dto/createElder.dto';
-import { Elder, ElderDocument } from './schema/Elders.schema';
+import { Elder, ElderDocument } from './schema/elder.schema';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -10,13 +10,28 @@ export class EldersService {
     @InjectModel(Elder.name) private readonly model: Model<ElderDocument>,
   ) {}
 
-  async createUser(userInput: CreateElderDto): Promise<any> {
-    const newUser = new this.model(userInput);
-    return await newUser.save();
+  async getElderById(id: string): Promise<any> {
+    const elder = await this.model.findById(id).exec();
+    return elder;
   }
 
-  async getUserByFilter(filterInput: any): Promise<any> {
-    const user = await this.model.findOne(filterInput).exec();
-    return user;
+  async getElderByFilter(filterInput: any): Promise<any> {
+    const elder = await this.model.findOne(filterInput).exec();
+    return elder;
+  }
+
+  async getEldersByFilter(filterInput: any): Promise<any> {
+    const elders = await this.model.find(filterInput).exec();
+    return elders;
+  }
+
+  async createElder(input: CreateElderDto): Promise<any> {
+    const newElder = new this.model(input);
+    return await newElder.save();
+  }
+
+  async updateElder(input: CreateElderDto, id: string): Promise<any> {
+    const updatedElder = await this.model.findByIdAndUpdate(id, input);
+    return updatedElder;
   }
 }

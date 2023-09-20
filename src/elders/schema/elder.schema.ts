@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
 import { Document, ObjectId, Types } from 'mongoose';
+import { User } from '../../users/schema/users.schema';
 
 export type ElderDocument = Elder & Document;
 
@@ -33,7 +33,11 @@ export class Elder {
     type: Types.ObjectId,
     required: true,
   })
-  careTakerId?: Types.ObjectId;
+  careTakerId: Types.ObjectId | User;
 }
 
 export const ElderSchema = SchemaFactory.createForClass(Elder);
+
+ElderSchema.add({
+  careTakerId: { type: Types.ObjectId, ref: User.name },
+});

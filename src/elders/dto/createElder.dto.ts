@@ -40,4 +40,6 @@ export class CreateElderDto {
     description: 'guardian contact number',
   })
   readonly guardianContactNumber: string;
+
+  careTakerId: string;
 }

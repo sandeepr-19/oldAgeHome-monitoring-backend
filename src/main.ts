@@ -9,6 +9,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Elder Monitoring')
     .setVersion('1.0')
+    .addBearerAuth() // Optional: If you're using JWT authentication
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
