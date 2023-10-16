@@ -1,4 +1,8 @@
-import { Injectable, NotAcceptableException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/schema/users.schema';
 import { UsersService } from '../users/users.service';
@@ -11,14 +15,19 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUserCredentials(
-    userName: string,
-    password: string,
-  ): Promise<any> {
-    const user = await this.usersService.getUserByFilter({
-      userName,
-    });
+  async userLogin(req: any): Promise<any> {
+    const user = await this.validateUserCredentials(
+      req.body.email,
+      req.body.password,
+    );
+    const tokenCredentials = await this.loginWithCredentials(user);
+    return tokenCredentials;
+  }
 
+  async validateUserCredentials(email: string, password: string): Promise<any> {
+    const user = await this.usersService.getUserByFilter({
+      email,
+    });
     if (!user) {
       throw new NotAcceptableException('could not find the user');
     }
@@ -26,18 +35,16 @@ export class AuthService {
     if (user && passwordValid) {
       return user;
     }
-    return null;
+    throw new UnauthorizedException('email and password does not match');
   }
 
   async loginWithCredentials(user: any) {
-    console.log(user);
-    const payload = { userName: user.userName, userId: user._id };
-    const a = this.jwtService.sign(payload);
-    console.log(a);
+    const payload = { email: user.email, userId: user._id };
+    const accessToken = this.jwtService.sign(payload);
     return {
-      username: user.userName,
-      access_token: a,
-      expiredAt: Date.now() + 60000,
+      userId: user._id,
+      access_token: accessToken,
+      expiresAt: Date.now() + 60000,
     };
   }
 

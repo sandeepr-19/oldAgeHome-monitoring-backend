@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schema/users.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createUser.dto';
-import * as bcrypt from 'bcrypt';
+import { generateUsername } from 'unique-username-generator';
 
 @Injectable()
 export class UsersService {
@@ -12,7 +12,10 @@ export class UsersService {
   ) {}
 
   async createUser(userInput: CreateUserDto): Promise<any> {
-    const newUser = new this.model({ ...userInput });
+    const newUser = new this.model({
+      ...userInput,
+      userName: generateUsername('', 0, 15),
+    });
     return await newUser.save();
   }
 

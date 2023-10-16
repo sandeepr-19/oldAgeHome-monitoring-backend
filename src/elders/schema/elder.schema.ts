@@ -17,14 +17,14 @@ export class Elder {
   @Prop()
   age: number;
 
-  @Prop({ required: false })
-  mobileNumber: string;
-
   @Prop()
   gender: string;
 
   @Prop({ required: false })
-  gaurdianName: string;
+  mobileNumber: string;
+
+  @Prop({ required: false })
+  guardianName: string;
 
   @Prop({ required: false })
   guardianContactNumber: string;

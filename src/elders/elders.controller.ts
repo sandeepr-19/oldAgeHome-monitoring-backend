@@ -7,10 +7,11 @@ import {
   Put,
   UseGuards,
   Req,
+  Header,
 } from '@nestjs/common';
 import { EldersService } from './elders.service';
 import { CreateElderDto } from './dto/createElder.dto';
-import { AuthGuard } from '../guard/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('elders')
 export class EldersController {
@@ -19,25 +20,26 @@ export class EldersController {
   @UseGuards(AuthGuard)
   @Get(':id')
   async getElderById(@Param('id') id: string, @Req() request: any) {
-    console.log(request);
     return this.eldersService.getElderById(id);
   }
 
   @UseGuards(AuthGuard)
   @Get()
   async getEldersByFilter(@Body() filterInput: any, @Req() request: any) {
-    return this.eldersService.getEldersByFilter(filterInput);
+    const userId = request.headers.userid;
+    return this.eldersService.getEldersByFilter({
+      ...filterInput,
+      careTakerId: userId,
+    });
   }
 
   @UseGuards(AuthGuard)
-  @Post()
+  @Post('/create')
   async createElder(
     @Body() createElderDto: CreateElderDto,
     @Req() request: any,
   ) {
-    // console.log(request.decodedData);
     createElderDto.careTakerId = request.decodedData.userId;
-    console.log(createElderDto);
     return this.eldersService.createElder(createElderDto);
   }
 

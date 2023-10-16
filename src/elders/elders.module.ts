@@ -3,12 +3,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { EldersController } from './elders.controller';
 import { EldersService } from './elders.service';
 import { Elder, ElderSchema } from './schema/elder.schema';
-import { GuardModule } from '../guard/guard.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Elder.name, schema: ElderSchema }]),
-    GuardModule,
+    AuthModule,
   ],
   controllers: [EldersController],
   providers: [EldersService],
