@@ -12,8 +12,8 @@ import { EldersModule } from './elders/elders.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://san:Test0123@cluster0.l7d3wnj.mongodb.net/?retryWrites=true&w=majority',
-      { dbName: 'dev' },
+      'mongodb+srv://san:Test0123@cluster0.l7d3wnj.mongodb.net/dev?retryWrites=true&w=majority',
+      // { dbName: 'dev' },
     ),
     UsersModule,
     AuthModule,
