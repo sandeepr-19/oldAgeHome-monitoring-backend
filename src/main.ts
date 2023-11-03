@@ -15,9 +15,10 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   const corsOptions: CorsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'https://senior-guard.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
+    allowedHeaders: '*',
   };
 
   app.enableCors(corsOptions);
