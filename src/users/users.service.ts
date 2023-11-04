@@ -23,4 +23,16 @@ export class UsersService {
     const user = await this.model.findOne(filterInput).exec();
     return user;
   }
+
+  async getUserById(id: string): Promise<any> {
+    const user = await this.model.findById(id).exec();
+    return user;
+  }
+
+  async updateFcmToken(fcmToken: string, userId: String): Promise<any> {
+    const user = await this.model
+      .findByIdAndUpdate(userId, { fcmToken }, { new: true })
+      .exec();
+    return user;
+  }
 }

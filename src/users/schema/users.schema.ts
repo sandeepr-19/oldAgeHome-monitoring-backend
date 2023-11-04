@@ -22,6 +22,9 @@ export class User {
 
   @Prop({ nullable: true })
   gender: string;
+
+  @Prop({ default: '' })
+  fcmToken: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

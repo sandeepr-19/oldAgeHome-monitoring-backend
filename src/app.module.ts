@@ -6,6 +6,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { EldersModule } from './elders/elders.module';
 import { EdgeNodeModule } from './edge-node/edge-node.module';
+import { NotificationModule } from './notification/notification.module';
+import { FireBaseModule } from './fire-base/fire-base.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { EdgeNodeModule } from './edge-node/edge-node.module';
     AuthModule,
     EldersModule,
     EdgeNodeModule,
+    NotificationModule,
+    FireBaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
