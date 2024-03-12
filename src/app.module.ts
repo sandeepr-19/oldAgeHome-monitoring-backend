@@ -8,6 +8,7 @@ import { EldersModule } from './elders/elders.module';
 import { EdgeNodeModule } from './edge-node/edge-node.module';
 import { NotificationModule } from './notification/notification.module';
 import { FireBaseModule } from './fire-base/fire-base.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -20,8 +21,9 @@ import { FireBaseModule } from './fire-base/fire-base.module';
     EdgeNodeModule,
     NotificationModule,
     FireBaseModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
