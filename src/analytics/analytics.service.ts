@@ -33,7 +33,7 @@ constructor(@InjectModel(BottleCount.name) private readonly model1: Model<Bottle
     const totalSpeed = bottleCount.reduce((acc, item) => acc + item.count, 0);
     const averageSpeed = totalSpeed / bottleCount.length;
 
-        return {leastSpeed,mostSpeed,averageSpeed,leastTimeTaken,mostTimeTaken,averageTimeTaken,bottleCount};
+        return {timeTakenEntities: timeTaken.length,leastSpeed,mostSpeed,averageSpeed,leastTimeTaken,mostTimeTaken,averageTimeTaken,bottleCount};
       }
 
      private getCurrentDate(): string {
