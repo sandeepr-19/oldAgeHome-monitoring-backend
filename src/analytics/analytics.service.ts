@@ -23,7 +23,7 @@ constructor(@InjectModel(BottleCount.name) private readonly model1: Model<Bottle
         const bottleCount = await this.model1.find().exec();
         const timeTaken = await this.model2.find().exec();
 
-    const leastTimeTaken = Math.min(...timeTaken.map(item => item.timeTaken));
+    const leastTimeTaken = Math.max(3,Math.min(...timeTaken.map(item => item.timeTaken)));
     const mostTimeTaken = Math.max(...timeTaken.map(item => item.timeTaken));
     const totalTime = timeTaken.reduce((acc, item) => acc + item.timeTaken, 0);
     const averageTimeTaken = totalTime / timeTaken.length;
