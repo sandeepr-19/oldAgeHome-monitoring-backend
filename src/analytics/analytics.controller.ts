@@ -1,13 +1,26 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
-import { Test1Dto } from './dto/test1.dto';
+import { BottleCountDto } from './dto/analytics.dto';
+import { TimeTakenDto } from './dto/analytics.dto';
 
 @Controller('analytics')
 export class AnalyticsController {
     constructor(private readonly analyticsService: AnalyticsService) { }
-    @Post('/sendAlert')
-    async createElder(@Body() test1Dto: Test1Dto, @Req() request: any) {
-        console.log(test1Dto);
-        return true;
+
+    @Get()
+    async getAnalytics( @Req() request: any) {
+      return this.analyticsService.getAnalyticsData();
+    }
+
+    @Post('/saveBottleCount')
+    async saveBottleCount(@Body() bottleCountDto: BottleCountDto, @Req() request: any) {
+        console.log(bottleCountDto);
+        return this.analyticsService.saveBottleCount(bottleCountDto);
+    }
+
+    @Post('/saveTimeTaken')
+    async saveTimeTaken(@Body() timeTakenDto: TimeTakenDto, @Req() request: any) {
+        console.log(timeTakenDto);
+        return this.analyticsService.saveTimeTaken(timeTakenDto);
     }
 }
