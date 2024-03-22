@@ -3,6 +3,7 @@ import { Document, ObjectId, Types } from 'mongoose';
 
 export type BottleCountDocument = BottleCount & Document;
 export type TimeTakenDocument = TimeTaken & Document;
+export type UnitDocument = Unit & Document;
 
 @Schema()
 export class BottleCount {
@@ -34,6 +35,24 @@ export class TimeTaken {
 
   }
 
+  @Schema()
+  export class Unit {
+    _id: ObjectId;
+  
+    @Prop()
+    time: string;
+  
+    @Prop()
+    units: number;
+  
+    @Prop()
+    date: string;
+
+    @Prop()
+    tariff: number;
+    }
+
 export const BottleCountSchema = SchemaFactory.createForClass(BottleCount);
 export const TimeTakenSchema = SchemaFactory.createForClass(TimeTaken);
+export const UnitSchema = SchemaFactory.createForClass(Unit);
 

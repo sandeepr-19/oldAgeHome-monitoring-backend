@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
-import { BottleCountDto } from './dto/analytics.dto';
+import { BottleCountDto, EnergyMeterDto } from './dto/analytics.dto';
 import { TimeTakenDto } from './dto/analytics.dto';
 
 @Controller('analytics')
@@ -22,5 +22,11 @@ export class AnalyticsController {
     async saveTimeTaken(@Body() timeTakenDto: TimeTakenDto, @Req() request: any) {
         console.log(timeTakenDto);
         return this.analyticsService.saveTimeTaken(timeTakenDto);
+    }
+
+    @Post('/saveUnits')
+    async saveUnitsMeasured(@Body() energyMeterDto: EnergyMeterDto, @Req() request: any) {
+        console.log(energyMeterDto);
+        return this.analyticsService.saveUnitsMeasured(energyMeterDto);
     }
 }
