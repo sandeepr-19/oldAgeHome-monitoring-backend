@@ -54,10 +54,10 @@ constructor(@InjectModel(BottleCount.name) private readonly model1: Model<Bottle
           
           if (lastUnit) {
               const presentUnits = input.units - lastUnit.units;
-              const newUnitData = new this.model3({ time: this.getCurrentTime(), units: presentUnits, date: this.getCurrentDate(),tariff:894 });
+              const newUnitData = new this.model3({ time: this.getCurrentTime(), units: presentUnits, date: this.getCurrentDate(),tariff:this.calculateBill( input.units) });
              return await newUnitData.save();
           } else {
-            const newUnitData = new this.model3({ time: this.getCurrentTime(), units:  input.units, date: this.getCurrentDate(),tariff:894 });
+            const newUnitData = new this.model3({ time: this.getCurrentTime(), units:  input.units, date: this.getCurrentDate(),tariff:this.calculateBill( input.units) });
             return await newUnitData.save();
           }
       } catch (error) {
@@ -89,4 +89,17 @@ constructor(@InjectModel(BottleCount.name) private readonly model1: Model<Bottle
       private padZero(num: number): string {
         return num < 10 ? `0${num}` : `${num}`;
       }
+
+      private calculateBill(units: number): number {
+        if (units <= 100) {
+            return units * 0;
+        } else if (units <= 200) {
+            return (100 * 0) + (units - 100) * 2.25;
+        } else if (units <= 400) {
+            return (100 * 0) + (100 * 2.25) + (units - 200) * 4.5;
+        } else if (units > 400) {
+            return (100 * 0) + (100 * 2.25) + (200 * 4.5) + (units - 400) * 6;
+        }
+        return 0;
+    }
  }
