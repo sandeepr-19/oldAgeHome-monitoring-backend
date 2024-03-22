@@ -35,17 +35,17 @@ constructor(@InjectModel(BottleCount.name) private readonly model1: Model<Bottle
     const totalSpeed = bottleCount.reduce((acc, item) => acc + item.count, 0);
     const averageSpeed = totalSpeed / bottleCount.length;
 
-    const highestUnits = Math.min(...units.map(item => item.units));
-    const lowestUnits = Math.max(...units.map(item => item.units));
-    const totalUnits = units.reduce((acc, item) => acc + item.units, 0);
+    const highestUnits = Math.min(...units.map(item => item.currentUnits));
+    const lowestUnits = Math.max(...units.map(item => item.currentUnits));
+    const totalUnits = units.reduce((acc, item) => acc + item.currentUnits, 0);
     const averageUnits = totalUnits / units.length;
 
-    const highesttariff = Math.min(...units.map(item => item.tariff));
-    const lowesttariff = Math.max(...units.map(item => item.tariff));
-    const totaltariff = units.reduce((acc, item) => acc + item.tariff, 0);
-    const averagetariff = totaltariff / units.length;
+    const highestTariff = Math.min(...units.map(item => item.tariff));
+    const lowestTariff = Math.max(...units.map(item => item.tariff));
+    const totalTariff = units.reduce((acc, item) => acc + item.tariff, 0);
+    const averageTariff = totalTariff / units.length;
 
-        return {units,highestUnits,lowestUnits,averageUnits,highesttariff,lowesttariff,averagetariff,timeTakenEntities: timeTaken.length,leastSpeed,mostSpeed,averageSpeed,leastTimeTaken,mostTimeTaken,averageTimeTaken,bottleCount};
+        return {units,highestUnits,lowestUnits,averageUnits,highestTariff,lowestTariff,averageTariff,timeTakenEntities: timeTaken.length,leastSpeed,mostSpeed,averageSpeed,leastTimeTaken,mostTimeTaken,averageTimeTaken,bottleCount};
       }
 
       async saveUnitsMeasured(input: EnergyMeterDto): Promise<any> {
@@ -53,11 +53,11 @@ constructor(@InjectModel(BottleCount.name) private readonly model1: Model<Bottle
           const lastUnit = await this.model3.findOne({}, {}, { sort: { _id: -1 } }).exec();
           
           if (lastUnit) {
-              const presentUnits = input.units - lastUnit.units;
-              const newUnitData = new this.model3({ time: this.getCurrentTime(), units: presentUnits, date: this.getCurrentDate(),tariff:this.calculateBill( input.units) });
+              const presentUnits = input.units - lastUnit.measuredUnits;
+              const newUnitData = new this.model3({measuredUnits:input.units, time: this.getCurrentTime(), currentUnits: presentUnits, date: this.getCurrentDate(),tariff:this.calculateBill( presentUnits) });
              return await newUnitData.save();
           } else {
-            const newUnitData = new this.model3({ time: this.getCurrentTime(), units:  input.units, date: this.getCurrentDate(),tariff:this.calculateBill( input.units) });
+            const newUnitData = new this.model3({ measuredUnits:input.units,time: this.getCurrentTime(), currentUnits:  input.units, date: this.getCurrentDate(),tariff:this.calculateBill( input.units) });
             return await newUnitData.save();
           }
       } catch (error) {

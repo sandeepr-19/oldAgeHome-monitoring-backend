@@ -43,7 +43,10 @@ export class TimeTaken {
     time: string;
   
     @Prop()
-    units: number;
+    currentUnits: number;
+
+    @Prop()
+    measuredUnits: number;
   
     @Prop()
     date: string;
