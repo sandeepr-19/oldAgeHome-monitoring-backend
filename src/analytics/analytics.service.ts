@@ -40,8 +40,8 @@ constructor(@InjectModel(BottleCount.name) private readonly model1: Model<Bottle
     const totalUnits = units.reduce((acc, item) => acc + item.currentUnits, 0);
     const averageUnits = totalUnits / units.length;
 
-    const highestTariff = Math.min(...units.map(item => item.tariff));
-    const lowestTariff = Math.max(...units.map(item => item.tariff));
+    const highestTariff =Math.max(...units.map(item => item.tariff));
+    const lowestTariff = Math.min(...units.map(item => item.tariff)); 
     const totalTariff = units.reduce((acc, item) => acc + item.tariff, 0);
     const averageTariff = totalTariff / units.length;
 
